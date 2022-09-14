@@ -23,6 +23,94 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		var mail = ""
+		var pass = ""
+
+		//form register
+		$("form.register").submit(function(){
+			var getName = $("input.name").val()
+			var getEmail = $("input.email").val()
+			var getPass = $("input.password").val()
+			x = 1
+
+			if(getName == ""){
+				$("p.name_err").text("* yêu cầu nhập Name")
+				x = 2
+			}else{
+				$("p.name_err").text("")
+			}
+			if(getEmail == ""){
+				$("p.email_err").text("* yêu cầu nhập Email")
+				x = 2
+			}else{
+				$("p.email_err").text("")
+			}
+			if(getPass == ""){
+				$("p.pass_err").text("* yêu cầu nhập Password")
+				x = 2
+			}else{
+				$("p.pass_err").text("")
+			}
+
+			if(x == 1){
+				alert("Đăng kí thành công")
+				var obj = {
+					mail:getEmail,
+					pass:getPass
+				}
+				localStorage.setItem("register",JSON.stringify(obj))
+			}
+			
+			return false;
+		})
+
+		
+		//form login
+			$("form.login").submit(function(){
+				var getEmailLogin = $("input.email_login").val()
+				var getPassLogin = $("input.pass_login").val()
+				var getCheck = $("input.checkbox").is(":checked");
+				x = 1 
+
+				if(getEmailLogin == ""){
+					$("p.email_login_err").text("* yêu cầu nhập Email")
+					x = 2
+				}else{
+					$("p.email_login_err").text("")
+				}
+				if(getPassLogin == ""){
+					$("p.pass_login_err").text("* yêu cầu nhập password")
+					x = 2
+				}else{
+					$("p.pass_login_err").text("")
+				}
+				if(getCheck == false){
+					$("p.check_login_err").text("* yêu cầu chọn")
+					x = 2
+				}else{
+					$("p.check_login_err").text("")
+				}
+
+				if(x = 1){
+					var xx = localStorage.getItem("register")
+					if(xx){
+						xx = JSON.parse(xx)
+						// console.log(xx)
+						if(getEmailLogin == xx.mail && getPassLogin == xx.pass){
+							alert("Đăng nhập thành công")
+						}else{
+							alert("Email hoặc pass không đúng")
+						}
+						
+					}
+				}
+				return true;
+			})
+		})
+</script>
 
 <body>
 	<header id="header"><!--header-->
@@ -149,13 +237,16 @@
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form"><!--login form-->
 						<h2>Login to your account</h2>
-						<form action="#">
-							<input type="text" placeholder="Name" />
-							<input type="email" placeholder="Email Address" />
+						<form class="login" action="index.html">
+							<input class="email_login" type="email" placeholder="Email Address" />
+							<p class="email_login_err"></p>
+							<input class="pass_login" type="password" placeholder="password" />
+							<p class="pass_login_err"></p>
 							<span>
 								<input type="checkbox" class="checkbox"> 
 								Keep me signed in
 							</span>
+							<p class="check_login_err"></p>
 							<button type="submit" class="btn btn-default">Login</button>
 						</form>
 					</div><!--/login form-->
@@ -166,10 +257,13 @@
 				<div class="col-sm-4">
 					<div class="signup-form"><!--sign up form-->
 						<h2>New User Signup!</h2>
-						<form action="#">
-							<input type="text" placeholder="Name"/>
-							<input type="email" placeholder="Email Address"/>
-							<input type="password" placeholder="Password"/>
+						<form class="register" action="#">
+							<input class="name" type="text" placeholder="Name"/>
+							<p class="name_err"></p>
+							<input class="email" type="email" placeholder="Email Address"/>
+							<p class="email_err"></p>
+							<input class="password" type="password" placeholder="Password"/>
+							<p class="pass_err"></p>
 							<button type="submit" class="btn btn-default">Signup</button>
 						</form>
 					</div><!--/sign up form-->
